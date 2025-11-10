@@ -6,7 +6,6 @@ const trimAndCollapse = (val) => val.trim().replace(/\s+/g, ' ')
 // Schema de registro: valida y normaliza campos
 export const registerSchema = z.object({
   nombre: z.string()
-    .trim()
     .min(3, 'Mínimo 3 caracteres')
     .max(60, 'Máximo 60 caracteres')
     .transform(trimAndCollapse),

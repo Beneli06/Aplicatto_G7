@@ -9,14 +9,14 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const DATA_PATH = join(__dirname, '..', 'data', 'users.json')
 
 // Helper: reiniciar DB entre pruebas para aislamiento
-async function resetDb() {
+async function resetDB() {
   const empty = { users: [], seq: 1 }
   await fs.writeFile(DATA_PATH, JSON.stringify(empty, null, 2))
 }
 
 describe('Auth API', () => {
   beforeEach(async () => {
-    await resetDb()
+    await resetDB()
   })
 
   it('debería registrar un usuario nuevo', async () => {
@@ -74,10 +74,11 @@ describe('Auth API', () => {
 
     const res = await request(app)
       .post('/api/auth/login')
-      .send({ email: 'ana@sena.edu.co', password: 'mala' })
-      .expect(400) // Falla validación por longitud mínima
+      .send({ email: 'ana@sena.edu.co', password: 'incorrecto' }) // Contraseña válida pero incorrecta
+      .expect(401) // Falla autenticación por contraseña incorrecta
 
     expect(res.body.ok).toBe(false)
+    expect(res.body.error).toMatch(/credenciales/i)
   })
 
   it('debería responder 404 para rutas desconocidas', async () => {
