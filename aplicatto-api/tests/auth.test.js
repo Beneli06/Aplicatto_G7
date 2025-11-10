@@ -89,4 +89,35 @@ describe('Auth API', () => {
     expect(res.body.ok).toBe(false)
     expect(res.body.error).toMatch(/no encontrado/i)
   })
+
+  it('debería requerir token para /api/auth/me y devolver el perfil', async () => {
+    // Registrar y loguear para obtener token
+    await request(app)
+      .post('/api/auth/register')
+      .send({ nombre: 'Ana', email: 'ana@sena.edu.co', password: 'seguro123' })
+      .expect(201)
+
+    const login = await request(app)
+      .post('/api/auth/login')
+      .send({ email: 'ana@sena.edu.co', password: 'seguro123' })
+      .expect(200)
+
+    const token = login.body.token
+
+    const res = await request(app)
+      .get('/api/auth/me')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(res.body.ok).toBe(true)
+    expect(res.body.user).toMatchObject({ email: 'ana@sena.edu.co' })
+  })
+
+  it('debería rechazar /api/auth/me sin token', async () => {
+    const res = await request(app)
+      .get('/api/auth/me')
+      .expect(401)
+
+    expect(res.body.ok).toBe(false)
+  })
 })

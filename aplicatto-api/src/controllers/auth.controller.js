@@ -54,3 +54,13 @@ export async function login(req, res){
   const token = jwt.sign({ sub: user.id, email: user.email }, JWT_SECRET, { expiresIn: TOKEN_TTL })
   return res.json({ ok: true, message: 'Autenticación satisfactoria', token })
 }
+
+/**
+ * Controlador: Perfil del usuario autenticado.
+ * Requiere que el middleware de auth haya colocado req.user.
+ */
+export async function me(req, res){
+  // req.user viene del middleware verifyToken
+  const { id, nombre, email, createdAt } = req.user
+  return res.json({ ok:true, user:{ id, nombre, email, createdAt } })
+}

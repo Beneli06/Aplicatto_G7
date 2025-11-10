@@ -7,6 +7,7 @@ Servicio web en Node.js (Express) para registro e inicio de sesión. Almacena us
 - GET `/api/health` — estado del servicio
 - POST `/api/auth/register` — registro: `{ nombre, email, password }`
 - POST `/api/auth/login` — login: `{ email, password }` → token JWT
+	- GET `/api/auth/me` — perfil del usuario autenticado (requiere `Authorization: Bearer <token>`)
 
 Archivo `docs/requests.http` incluye ejemplos listos para usar (VS Code REST Client o Thunder Client).
 
@@ -66,6 +67,7 @@ npm run test:watch
 ```
 
 Las pruebas no arrancan el servidor HTTP; importan `src/app.js` y ejercitan los endpoints en memoria. Antes de cada caso, se restablece `data/users.json` para garantizar aislamiento.
+Incluye casos protegidos (`/api/auth/me`) con y sin token.
 
 ---
 Fecha: 2025-11-10
