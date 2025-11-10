@@ -1,0 +1,23 @@
+### Comprobar salud del servicio
+GET http://localhost:3000/api/health
+
+###
+### Registro de usuario
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{ "nombre":"Ana Docente", "email":"ana@sena.edu.co", "password":"seguro123" }
+
+###
+### Inicio de sesión (devuelve token JWT)
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{ "email":"ana@sena.edu.co", "password":"seguro123" }
+
+### Ejemplo de respuesta exitosa de login
+# {
+#   "ok": true,
+#   "message": "Autenticación satisfactoria",
+#   "token": "<jwt>"
+# }
