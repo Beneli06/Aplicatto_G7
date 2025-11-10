@@ -6,12 +6,14 @@ const trimAndCollapse = (val) => val.trim().replace(/\s+/g, ' ')
 // Schema de registro: valida y normaliza campos
 export const registerSchema = z.object({
   nombre: z.string()
-    .transform(trimAndCollapse)
+    .trim()
     .min(3, 'Mínimo 3 caracteres')
-    .max(60, 'Máximo 60 caracteres'),
+    .max(60, 'Máximo 60 caracteres')
+    .transform(trimAndCollapse),
   email: z.string()
+    .trim()
     .email('Email inválido')
-    .transform(e => e.toLowerCase().trim()),
+    .transform(e => e.toLowerCase()),
   password: z.string()
     .min(6, 'Mínimo 6 caracteres')
     .max(128, 'Máximo 128 caracteres')
@@ -20,7 +22,8 @@ export const registerSchema = z.object({
 // Schema de login: sólo email y password
 export const loginSchema = z.object({
   email: z.string()
+    .trim()
     .email('Email inválido')
-    .transform(e => e.toLowerCase().trim()),
+    .transform(e => e.toLowerCase()),
   password: z.string().min(6, 'Mínimo 6 caracteres')
 })

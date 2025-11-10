@@ -55,5 +55,17 @@ git commit -m "feat: servicios de registro/login con validaciones y comentarios"
 
 También se incluye `ENLACE_REPOSITORIO.txt` para consignar la URL del repositorio remoto.
 
+## Pruebas automatizadas (Jest)
+
+Se incluyen pruebas para registro/login utilizando Supertest sobre la app de Express.
+
+```bash
+npm test
+# o en modo watch
+npm run test:watch
+```
+
+Las pruebas no arrancan el servidor HTTP; importan `src/app.js` y ejercitan los endpoints en memoria. Antes de cada caso, se restablece `data/users.json` para garantizar aislamiento.
+
 ---
 Fecha: 2025-11-10
